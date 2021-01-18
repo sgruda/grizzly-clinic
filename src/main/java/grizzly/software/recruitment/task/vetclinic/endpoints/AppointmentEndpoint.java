@@ -52,7 +52,7 @@ public class AppointmentEndpoint {
                     cancelAppointmentRequest.getCustomerPin(),
                     customer
             );
-            cancelAppointmentService.cancelAppointment(cancelAppointmentRequest.getAppointmentUUID());
+            cancelAppointmentService.cancelAppointment(cancelAppointmentRequest.getAppointmentUUID(), customer.getUuid());
         } catch (AppBaseException e) {
             return new ResponseEntity(new ApiResponse(false, e.getMessage()),
                     HttpStatus.BAD_REQUEST);

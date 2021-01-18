@@ -3,11 +3,11 @@ package grizzly.software.recruitment.task.vetclinic.services.implementation;
 import grizzly.software.recruitment.task.vetclinic.exceptions.AppointmentNotExistsException;
 import grizzly.software.recruitment.task.vetclinic.exceptions.BadCredentialsException;
 import grizzly.software.recruitment.task.vetclinic.exceptions.CustomerNotExistsException;
+import grizzly.software.recruitment.task.vetclinic.exceptions.UnauthorizedAttemptOfAccessToAppointmentException;
 import grizzly.software.recruitment.task.vetclinic.model.Appointment;
 import grizzly.software.recruitment.task.vetclinic.model.Customer;
 import grizzly.software.recruitment.task.vetclinic.repositories.AppointmentRepository;
 import grizzly.software.recruitment.task.vetclinic.repositories.CustomerRepository;
-import grizzly.software.recruitment.task.vetclinic.repositories.DoctorRepository;
 import grizzly.software.recruitment.task.vetclinic.services.interfaces.CancelAppointmentService;
 import grizzly.software.recruitment.task.vetclinic.utils.CredentialsChecker;
 import org.springframework.stereotype.Service;
@@ -15,12 +15,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class CancelAppointmentServiceImpl implements CancelAppointmentService {
     private CustomerRepository customerRepository;
-    private DoctorRepository doctorRepository;
     private AppointmentRepository appointmentRepository;
 
-    public CancelAppointmentServiceImpl(CustomerRepository customerRepository, DoctorRepository doctorRepository, AppointmentRepository appointmentRepository) {
+    public CancelAppointmentServiceImpl(CustomerRepository customerRepository, AppointmentRepository appointmentRepository) {
         this.customerRepository = customerRepository;
-        this.doctorRepository = doctorRepository;
         this.appointmentRepository = appointmentRepository;
     }
 
@@ -38,9 +36,12 @@ public class CancelAppointmentServiceImpl implements CancelAppointmentService {
     }
 
     @Override
-    public void cancelAppointment(String appointmentUUUID) throws AppointmentNotExistsException {
+    public void cancelAppointment(String appointmentUUUID, String ownerUUID) throws AppointmentNotExistsException, UnauthorizedAttemptOfAccessToAppointmentException {
         Appointment appointment = appointmentRepository.findByUUID(appointmentUUUID)
                 .orElseThrow(() -> new AppointmentNotExistsException());
+        if(!appointment.getCustomer().getUuid().equals(ownerUUID))
+            throw new UnauthorizedAttemptOfAccessToAppointmentException();
+        appointment.getCustomer().removeAppointment(appointment);
         appointment.getDoctor().removeAppointment(appointment);
         appointmentRepository.cancel(appointment);
     }

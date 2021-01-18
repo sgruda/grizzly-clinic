@@ -1,5 +1,9 @@
 package grizzly.software.recruitment.task.vetclinic.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Customer {
@@ -7,6 +11,8 @@ public class Customer {
     private String name;
     private String id;
     private String pin;
+    @JsonBackReference
+    private List<Appointment> appointmentList = new ArrayList<>();
 
     public Customer(String name, String id, String pin) {
         this.uuid = UUID.randomUUID().toString();
@@ -26,10 +32,6 @@ public class Customer {
         return uuid;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public String getId() {
         return id;
     }
@@ -38,6 +40,13 @@ public class Customer {
         return pin;
     }
 
+    public void addAppointment(Appointment appointment) {
+        appointmentList.add(appointment);
+    }
+
+    public void removeAppointment(Appointment appointment) {
+        appointmentList.remove(appointment);
+    }
 
     @Override
     public int hashCode() {

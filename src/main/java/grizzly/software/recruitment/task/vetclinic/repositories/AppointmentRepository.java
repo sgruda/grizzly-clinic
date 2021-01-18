@@ -3,7 +3,9 @@ package grizzly.software.recruitment.task.vetclinic.repositories;
 import grizzly.software.recruitment.task.vetclinic.model.Appointment;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 //Class to simulating connection to database.
 @Repository

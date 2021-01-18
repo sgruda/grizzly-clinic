@@ -50,5 +50,6 @@ public class AddAppointmentServiceImpl implements AddAppointmentService {
         Appointment appointment = new Appointment(doctor, customer, localDateTime);
         appointmentRepository.add(appointment);
         doctor.addAppointment(appointment);
+        customer.addAppointment(appointment);
     }
 }
