@@ -26,13 +26,6 @@ public class CustomerRepository {
         customerList = Arrays.asList(temp);
     }
 
-    public Optional<Customer> findByName(String name) {
-        return customerList
-                .stream()
-                .filter(c -> c.getName().equalsIgnoreCase(name))
-                .findFirst();
-    }
-
     public Optional<Customer> findByUUID(String uuid) {
         return customerList
                 .stream()

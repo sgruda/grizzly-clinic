@@ -26,10 +26,6 @@ public class Doctor {
         return uuid;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public List<Appointment> getAppointmentList() {
         return appointmentList;
     }

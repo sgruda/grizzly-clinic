@@ -31,10 +31,6 @@ public class Appointment {
         return doctor;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

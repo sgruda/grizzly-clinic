@@ -9,7 +9,6 @@ import java.util.*;
 @Repository
 public class AppointmentRepository {
     private Map<String, Appointment> appointmentMap = new HashMap<>();
-    private List<Appointment> appointmentList = new LinkedList<>();
 
     public void add(Appointment toAdd) {
         appointmentMap.put(toAdd.getUuid(), toAdd);
